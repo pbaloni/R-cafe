@@ -1,0 +1,174 @@
+---
+title: "R-cafe-Sept23"
+output: html_document
+date: "2023-09-06"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+# **Hello World!**
+
+```{r}
+print("Hello World!")
+```
+
+```{r}
+print("Hello World!", quote = FALSE)
+```
+
+```{r}
+print(paste("Hello World!","How","are","you?"))
+```
+
+# Plot
+
+```{r}
+x <- c(1,2,3,4,5)
+y <- c(3,7,8,9,12)
+plot(x, y)
+
+```
+
+# Plot - point size & shape
+
+```{r}
+plot(1:10, cex=2)
+```
+
+```{r}
+plot(1:10, pch=2, cex=2)
+```
+
+# Practice: try plotting with different shapes (hint: change pch value)
+
+```{r}
+plot(1:10, pch=X, cex=2)
+```
+
+# Data types
+
+```{r}
+x <-10.5
+class(x)
+```
+
+```{r}
+x <- 1000L
+class(x)
+```
+
+```{r}
+x <- 9i +3
+class(x)
+```
+
+```{r}
+x <-"R is exciting"
+class(x)
+```
+
+```{r}
+x <- TRUE
+class(x)
+```
+
+```{r}
+# What kind of data type is:
+
+my_var <- "<Insert Your name>"
+class(my_var)
+```
+
+```{r}
+# What kind of data type is:
+
+Y <- 4<5
+class(Y)
+```
+
+# Data structure
+
+```{r}
+#Vector
+fruits <- c("banana","apple","orange"); 
+length(fruits)
+```
+
+```{r}
+#List
+thislist <- list("apple","banana","cherry"); 
+length(thislist)
+```
+
+```{r}
+#Matrices
+thismatrix <- matrix(c("apple", "banana", "cherry", "orange"), nrow = 2, ncol = 2); 
+thismatrix
+```
+
+```{r}
+thisarray <-c(1:24); 
+thisarray
+```
+
+```{r}
+Data_Frame <- data.frame (Training = c("Strength","Stamina","Other"),Pulse = c(100,150,120),Duration = c(60,30,45))
+Data_Frame
+summary(Data_Frame)
+```
+
+# R package for learning at your own pace
+
+```{r}
+#Tools --> Install packages
+#Session --> Restart R
+
+library(swirl)
+```
+
+# Datasets
+
+```{r}
+library(datasets)
+data()
+```
+
+```{r}
+data(iris) 
+summary(iris)
+```
+
+```{r}
+plot(iris$Sepal.Length, iris$Sepal.Width)
+```
+
+```{r}
+plot(iris$Petal.Length, iris$Petal.Width)
+```
+
+```{r}
+#Generate plot with sepal length and petal length
+
+```
