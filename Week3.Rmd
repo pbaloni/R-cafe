@@ -1,0 +1,302 @@
+---
+title: "Week3"
+author: "Priyanka Baloni"
+date: "2023-10-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+#Installing package
+install.packages("productplots")
+install.packages("tidyverse")
+```
+
+```{r}
+#loading libraries
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(productplots)
+```
+
+```{r}
+#setwd("~/OneDrive-purdue.edu/Courses/R-cafe/2023") #for setting up the working directory
+getwd() #knowling the location of the current working directory
+```
+
+```{r}
+#loading a csv file
+file = read.csv("StateData.csv")
+```
+
+```{r}
+#Save the file as a tibble. A tibble, or tbl_df, is a modern reimagining of the dat.frame
+df <- file %>%
+  as_tibble() %>%
+  print()
+```
+
+```{r}
+#Subsetting data
+stateSubset = subset(df, region == "South")
+#total number of observations
+nrow(stateSubset)
+```
+
+```{r}
+#Lets identify unique regions in the dataset
+unique(df$region)
+```
+
+```{r}
+#Subsetting data. Use key term of "Northeast", "Midwest", "West" and subset the data
+stateSubset_1 = subset(df, region == "West")
+#total number of observations
+nrow(stateSubset_1)
+
+#Repeat this exercise for others
+```
+
+```{r}
+#Subsetting data with two keys
+stateSubset = subset(df, region == "South" & psychRegions == "Relaxed and Creative")
+#total number of observations
+nrow(stateSubset)
+```
+
+```{r}
+unique(df$psychRegions)
+```
+
+```{r}
+#Select either "Friendly and Conventional" or "Temperamental and Uninhibited" and repeat the exercise
+
+stateSubset = subset(df, region == "South" & psychRegions == "Relaxed and Creative")
+#total number of observations
+nrow(stateSubset)
+```
+
+```{r}
+#The original file is ordered based on the alphabetical order of state name. Let's change the order wrt another column in the file. For example: State code or Region
+
+df_1 = df[order(df$state_code),]
+
+#repeat the same process with region as  the column identifier
+
+df_2 = df[order(df$),]
+```
+
+```{r}
+#Let's plot some data
+ggplot(df, aes(x = openness))+
+  geom_histogram()
+```
+
+```{r}
+ggplot(df, aes(x = openness, colour = state_code))+
+  geom_histogram()
+```
+
+```{r}
+#Repeat the step using another column with continuous variable. hint only x needs to be changed.
+
+```
+
+```{r}
+#Loading and preparing data
+?happy
+names(happy)
+```
+
+# Learning dplyr
+
+```{r}
+help(dplyr)
+```
+
+```{r}
+browseVignettes(package = "dplyr")
+```
+
+```{r}
+#Using dplyr for analyzing the files
+dataset = happy %>%
+  as_tibble() %>%
+  print()
+```
+
+```{r}
+#Selecting specific columns in the dataset
+dataset %<>%
+  select(happy:health) %>%
+  print()
+```
+
+```{r}
+levels(dataset$happy)
+```
+
+```{r}
+# Bar chart of happy
+dataset %>%
+  ggplot() + 
+  geom_bar(aes(happy, fill = happy)) + 
+  theme(
+    axis.title.x = element_blank(), 
+    legend.position = "none"
+  )
+```
+
+```{r}
+# Frequencies for happy
+dataset %>% count(happy)
+```
+
+```{r}
+# Filter out the NA responses on happy
+dataset1 = dataset %>%
+  filter(!is.na(happy))
+
+```
+
+```{r}
+# Bar chart of happy
+dataset1 %>%
+  ggplot() + 
+  geom_bar(aes(happy, fill = happy)) + 
+  theme(
+    axis.title.x = element_blank(), 
+    legend.position = "none"
+  )
+```
+
+```{r}
+# HAPPINESS AND GENDER #####################################
+
+# Bar chart of sex
+dataset %>%
+  ggplot() + 
+  geom_bar(aes(sex, fill = sex)) + 
+  theme(
+    axis.title.x = element_blank(), 
+    legend.position = "none"
+  )
+```
+
+```{r}
+# Frequencies for sex
+dataset %>% count(sex)
+```
+
+```{r}
+# 100% stacked bar chart
+dataset %>%
+  ggplot(aes(sex, fill = happy)) + 
+  geom_bar()
+```
+
+```{r}
+#what will you do if you want to have plots with no "NA" values?
+
+
+```
+
+```{r}
+# HAPPINESS AND LEVEL OF EDUCATION #########################
+
+# Bar chart of degree
+dataset %>%
+  ggplot() + 
+  geom_bar(aes(degree, fill = degree)) + 
+  theme(
+    axis.title.x = element_blank(), 
+    legend.position = "none"
+  )
+```
+
+```{r}
+# Frequencies of degree
+dataset %>% count(degree)
+```
+
+```{r}
+dataset %>%
+  filter(!is.na(degree)) %>%
+  ggplot(aes(degree, fill = happy)) + 
+  geom_bar()
+```
+
+If you want to compare the responses in same scale:
+
+```{r}
+dataset %>%
+  filter(!is.na(degree)) %>%
+  ggplot(aes(degree, fill = happy)) + 
+  geom_bar(position = "fill")
+```
+
+```{r}
+# Create dichotomous college/not variable for exploration. Creating a new column in the dataset
+dataset %<>%
+  mutate(
+    college = ifelse(
+      degree %in%
+      c("junior college",
+        "bachelor",
+        "graduate"),
+      "yes", "no")
+  ) %>%
+  print()
+```
+
+```{r}
+# Frequencies of college
+dataset %>% count(college)
+```
+
+```{r}
+dataset %>%
+  ggplot(aes(college, fill = happy)) + 
+  geom_bar(position = "fill")
+```
+
+```{r}
+# HAPPINESS AND HEALTH #####################################
+
+# Bar chart of health
+dataset %>%
+  ggplot() + 
+  geom_bar(aes(health, fill = health)) + 
+  theme(
+    axis.title.x = element_blank(), 
+    legend.position = "none"
+  )
+```
+
+```{r}
+# Frequencies of health
+dataset %>% count(health)
+```
+
+```{r}
+#Remove NA from the dataset
+dataset2 = dataset %>%
+  filter(!is.na(health))
+```
+
+```{r}
+dataset2 %>%
+  filter(!is.na(health)) %>%
+  ggplot(aes(health, fill = happy)) + 
+  geom_bar(position = "fill")
+```
